@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Plagiarism Checker</title>
+</head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px auto;
+            width: 70%;
+            position: relative;
+            background-color: rgb(245, 245, 245);
+        }
+
+        h1 {
+            text-align: center;
+            color: rgb(0, 163, 200);
+        }
+
+        h3 {
+            color: rgb(0, 163, 200);
+        }
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 80%;
+            margin: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: rgb(0, 163, 200);
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .flashes {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        .flashes li {
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: rgb(0, 163, 200);
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .success {
+            color: #28a745;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        a{
+            border: 1px solid rgb(0, 163, 200);
+            padding: 8px 100px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 15px;
+            color: rgb(0, 163, 200);
+        }
+        a:hover{
+            color: white;
+            background-color: rgb(0, 163, 200);
+        }
+        .link{
+            margin: 20px auto;
+            width: 34%;
+        }
+        .head{
+            margin-top: 50px;
+        }
+        .error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        input{
+            border: 1px dashed rgb(0, 163, 200);
+            padding: 5px;
+            margin: auto;
+        }
+        button{
+            color: white;
+            background-color: rgb(0, 163, 200);
+            padding: 8px;
+            border: 1px solid rgb(0, 163, 200);
+        }
+        span{
+            border: 1px solid rgb(0, 163, 200);
+            padding: 3px 6px;
+            border-radius: 50%;
+            background-color: rgb(0, 163, 200);
+            color: white;
+        }
+        .steps h3{
+            font-size: 15px;
+        }
+        .steps p{
+            font-size: 15px;
+            margin-left: 25px;
+            margin-top: -7px;
+            margin-bottom: 10px;
+        }
+        .step{
+            margin-top: 20px;
+        }
+        .step p{
+            font-size: 15px;
+            margin-left: 50px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        li{
+            margin-left: 25px;
+        }
+    </style>
+
+
+<body>
+    <h1>Plagiarism Checker</h1>
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".txt" required>
+        <button type="submit">Upload File</button>
+    </form>
+    <br>
+    <div class="link">
+        <a href="/plagiarism">Check Plagiarism</a>
+    </div>
+    
+    <br>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <h1 class="head">Plagiarism Results</h1>
+    <table>
+        <tr>
+            <th>Newly Uploaded</th>
+            <th>Existed files</th>
+            <th>Plagiarism result (%)</th>
+        </tr>
+        {% for result in results %}
+            <tr>
+                <td>{{ result[0] }}</td>
+                <td>{{ result[1] }}</td>
+                <td>{{ result[2] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h1 class="head">How to use</h1>
+    <hr>
+
+    <div class="">
+        <div class="steps">
+            <h3><span>1</span> Choose a file to upload</h3>
+            <p>This file may be projects done by students or a topic and abstract to check for plagiarism. In .docx format.</p>
+        </div>
+        <div class="steps">
+            <h3><span>2</span> Click "Upload File"</h3>
+            <p>This will upload the selected file into the database.</p>
+        </div>
+        <div class="steps">
+            <h3><span>3</span> Click "Check Plagiarism"</h3>
+            <p>This will display the files have have similar contents in the "Plagiarism Result" table.</p>
+        </div>
+        <div class="step">
+            <li>"Newly Uploaded"</li>
+            <p>This file has similar contents with "Existed files".</p>
+        </div>
+        <div class="step">
+            <li>"Existed files"</li>
+            <p>This file has similar contents with "Newly Uploaded".</p>
+        </div>
+        <div class="step">
+            <li>"Plagiarism result"</li>
+            <p>This shows the amount of contents that might be similar (in percentage).</p>
+        </div>
+    </div>
+</body>
+</html>
